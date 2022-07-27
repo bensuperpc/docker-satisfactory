@@ -1,13 +1,13 @@
 version: '3'
 services:
-    game:
+    server:
         image: wolveix/satisfactory-server:latest
         profiles:
             - server
         ports:
-            - '7777:7777/udp'
-            - '15000:15000/udp'
-            - '15777:15777/udp'
+            - 7777:7777/udp
+            - 15000:15000/udp
+            - 15777:15777/udp
         volumes:
             - backups:/config/backups:rw
             - saves:/config/saves:rw
@@ -25,7 +25,7 @@ services:
         profiles:
             - backup
         depends_on:
-            - game
+            - server
         environment:
             BACKUP_CRON_EXPRESSION: "0 */2 * * *"
             BACKUP_FILENAME: "satisfactory-%Y-%m-%dT%H-%M-%S.tar.gz"

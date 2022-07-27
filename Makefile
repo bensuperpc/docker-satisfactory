@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILE := server backup
+PROFILE := satisfactory backup
 PROFILE_CMD := $(addprefix --profile ,$(PROFILE))
 
 COMPOSE_FILE := docker-compose.yml
