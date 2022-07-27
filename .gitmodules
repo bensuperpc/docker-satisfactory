@@ -1,0 +1,3 @@
+[submodule "submodule/satisfactory-server"]
+	path = submodule/satisfactory-server
+	url = git@github.com:wolveix/satisfactory-server.git

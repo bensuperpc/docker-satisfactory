@@ -1,0 +1,45 @@
+name: docker-satisfactory-server
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+      - "dev"
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  image:
+    name: docker-minecraft-server
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v3.0.2
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+      - name: "Start server"
+        run: make start
+      - name: "Wait..."
+        run: sleep 600
+      - name: "Check satisfactory port"
+        if: always()
+        run: nc -zv 127.0.0.1 15000
+      - name: "Check server"
+        if: always()
+        run: make state
+      - name: "Check logs server"
+        if: always()
+        run: make logs
+      - name: "Stop containers"
+        if: always()
+        run: make stop
+      - name: "Remove containers"
+        if: always()
+        run: make down
