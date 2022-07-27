@@ -28,9 +28,9 @@ jobs:
         run: make start
       - name: "Wait..."
         run: sleep 600
-      - name: "Check satisfactory port"
-        if: always()
-        run: nc -zv 127.0.0.1 15000
+#      - name: "Check satisfactory port"
+#        if: always()
+#        run: nc -zv 127.0.0.1 15000
       - name: "Check server"
         if: always()
         run: make state
