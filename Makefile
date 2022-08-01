@@ -9,7 +9,7 @@
 #//                                                          //
 #//  Script, 2022                                            //
 #//  Created: 14, April, 2022                                //
-#//  Modified: 27, July, 2022                                //
+#//  Modified: 30, July, 2022                                //
 #//  file: -                                                 //
 #//  -                                                       //
 #//  Source:                                                 //
@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILE := server backup
+PROFILE := satisfactory-server backup
 PROFILE_CMD := $(addprefix --profile ,$(PROFILE))
 
 COMPOSE_FILE := docker-compose.yml
@@ -70,8 +70,8 @@ update:
 
 .PHONY: clean
 clean:
-	docker-compose down --rmi all
+	docker-compose -f $(COMPOSE_FILE) down --rmi all
 
 .PHONY: purge
 purge:
-	docker-compose down -v --rmi all
+	docker-compose -f $(COMPOSE_FILE) down -v --rmi all

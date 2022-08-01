@@ -1,9 +1,9 @@
 version: "3.1"
 services:
-    server:
+    satisfactory-server:
         image: wolveix/satisfactory-server:latest
         profiles:
-            - server
+            - satisfactory-server
         ports:
             - 7777:7777/udp
             - 15000:15000/udp
@@ -13,24 +13,17 @@ services:
             - saves:/config/saves:rw
             - gamefiles:/config/gamefiles:rw
             - extra:/config/extra:rw
-        environment:
-            - MAXPLAYERS=8
-            - PGID=1000
-            - PUID=1000
-            - STEAMBETA=false
-            - SKIPUPDATE=false
+        env_file:
+        - satisfactory.env
         restart: on-failure:3
     backup:
         image: offen/docker-volume-backup:latest
         profiles:
             - backup
         depends_on:
-            - server
-        environment:
-            BACKUP_CRON_EXPRESSION: "0 */2 * * *"
-            BACKUP_FILENAME: "satisfactory-%Y-%m-%dT%H-%M-%S.tar.gz"
-            BACKUP_RETENTION_DAYS: "7"
-            BACKUP_LATEST_SYMLINK: "satisfactory-latest.tar.gz"
+            - satisfactory-server        
+        env_file:
+        - backup.env
         volumes:
             - saves:/backup/my-app-backup:ro
             - archive:/archive:rw
