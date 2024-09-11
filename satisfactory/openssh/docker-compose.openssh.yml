@@ -1,0 +1,31 @@
+services:
+  # openssh
+  openssh:
+    image: linuxserver/openssh-server:latest
+    container_name: openssh
+    profiles:
+      - openssh
+    restart: on-failure:5
+    env_file:
+      - ./openssh/env/openssh.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - openssh_config:/config
+      - satisfactory_backup:/satisfactory_backup
+      - satisfactory_data:/satisfactory_data
+      - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
+    networks:
+      - satisfactory_network
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 2222:2222
+volumes:
+  openssh_config:
+    name: openssh_config
+  satisfactory_backup:
+    name: satisfactory_backup
+  satisfactory_data:
+    name: satisfactory_data
