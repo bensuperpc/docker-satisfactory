@@ -1,0 +1,63 @@
+services:
+  # Satisfactory server
+  satisfactory_server:
+    image: wolveix/satisfactory-server:latest
+    container_name: satisfactory_server
+    profiles:
+      - satisfactory_server
+    restart: on-failure:5
+    ports:
+      - 7777:7777/udp
+      - 7777:7777/tcp
+    volumes:
+      - satisfactory_data:/config
+    networks:
+      - satisfactory_network
+    env_file:
+      - ./satisfactory/env/satisfactory.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: bash /healthcheck.sh
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+        reservations:
+          memory: 4G
+
+  satisfactory_backup:
+    image: mazzolino/restic:latest
+    container_name: satisfactory_backup
+    profiles:
+      - satisfactory_backup
+    depends_on:
+      - satisfactory_server
+    restart: on-failure:5
+    env_file:
+      - ./satisfactory/env/satisfactory_backup.env
+    volumes:
+      - satisfactory_backup:/mnt/restic
+      - satisfactory_data:/data:ro
+    networks:
+      - satisfactory_network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  satisfactory_backup:
+    name: satisfactory_backup
+  satisfactory_data:
+    name: satisfactory_data
+
+networks:
+  satisfactory_network:
+    driver: bridge
+    name: satisfactory_network

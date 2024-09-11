@@ -1,8 +1,8 @@
 name: submodule-update
 
 on:
-#  schedule:
-#    - cron: '0 */4 * * *'
+  schedule:
+    - cron: '0 */8 * * *'
   workflow_dispatch:
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Code"
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.CI_TOKEN }}
           repository: ${{ github.repository }}

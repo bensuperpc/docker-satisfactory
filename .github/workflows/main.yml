@@ -1,4 +1,4 @@
-name: docker-satisfactory-server
+name: infrastructure
 
 on:
   push:
@@ -11,35 +11,36 @@ on:
   pull_request:
     branches:
       - "*"
+  schedule:
+    - cron: "0 9 * * 2" # every tuesday at 9:00 https://crontab.guru/#0_7_*_*_1
   workflow_dispatch:
 
 jobs:
   image:
-    name: docker-minecraft-server
+    name: infrastructure
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - name: "Checkout Code"
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4
         with:
           submodules: "recursive"
           fetch-depth: 0
-      - name: "Start server"
-        run: make start
-      - name: "Wait..."
-        run: sleep 600
-#      - name: "Check satisfactory port"
-#        if: always()
-#        run: nc -zv 127.0.0.1 15000
-      - name: "Check server"
-        if: always()
-        run: make state
-      - name: "Check logs server"
-        if: always()
+      - name: "Update server image"
+        run: make update-docker
+      - name: "Build server"
+        run: make build
+#      - name: "Start server"
+#        run: make start
+      - name: "Logs server"
         run: make logs
-      - name: "Stop containers"
-        if: always()
+      - name: "State server"
+        run: make state
+      - name: "Stop server"
         run: make stop
-      - name: "Remove containers"
-        if: always()
+      - name: "Down server"
         run: make down
+      - name: "Clean server"
+        run: make clean
+      - name: "Purge server"
+        run: make purge
