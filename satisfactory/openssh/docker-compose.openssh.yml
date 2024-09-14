@@ -12,7 +12,7 @@ services:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
     volumes:
-      - openssh_config:/config
+      - satisfactory_openssh_config:/config
       - satisfactory_backup:/satisfactory_backup
       - satisfactory_data:/satisfactory_data
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
@@ -23,8 +23,8 @@ services:
     ports:
       - 2222:2222
 volumes:
-  openssh_config:
-    name: openssh_config
+  satisfactory_openssh_config:
+    name: satisfactory_openssh_config
   satisfactory_backup:
     name: satisfactory_backup
   satisfactory_data:
