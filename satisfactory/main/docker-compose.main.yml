@@ -1,0 +1,32 @@
+services:
+  main_satisfactory:
+    container_name: main_satisfactory
+    image: alpine:latest
+    profiles:
+      - main_satisfactory
+    volumes:
+      - satisfactory_openssh_config:/satisfactory_openssh_config
+      - satisfactory_backup:/satisfactory_backup
+      - satisfactory_data:/satisfactory_data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+    # Fix root permissions on mounted volumes
+    command: chown -R ${PUID:-1000}:${PGID:-1000} /satisfactory_openssh_config /satisfactory_backup /satisfactory_data
+
+volumes:
+  satisfactory_openssh_config:
+    name: satisfactory_openssh_config
+  satisfactory_backup:
+    name: satisfactory_backup
+  satisfactory_data:
+    name: satisfactory_data
+
+networks:
+  satisfactory_network:
+    driver: bridge
+    name: satisfactory_network

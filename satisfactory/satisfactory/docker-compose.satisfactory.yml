@@ -6,6 +6,9 @@ services:
     profiles:
       - satisfactory_server
     restart: on-failure:5
+    depends_on:
+      main_satisfactory:
+        condition: service_completed_successfully
     ports:
       - 7777:7777/udp
       - 7777:7777/tcp
@@ -36,6 +39,10 @@ services:
   satisfactory_backup:
     image: mazzolino/restic:latest
     container_name: satisfactory_backup
+    user: "${PUID:-1000}:${PGID:-1000}"
+    environment:
+      - UID=${PUID:-1000}
+      - GID=${PGID:-1000}
     profiles:
       - satisfactory_backup
     depends_on:
@@ -56,8 +63,3 @@ volumes:
     name: satisfactory_backup
   satisfactory_data:
     name: satisfactory_data
-
-networks:
-  satisfactory_network:
-    driver: bridge
-    name: satisfactory_network
