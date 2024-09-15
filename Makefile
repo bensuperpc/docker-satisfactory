@@ -77,7 +77,7 @@ update: update-docker
 
 .PHONY: clean
 clean:
-	docker system prune -f
+	$(DOCKER) system prune -f
 
 .PHONY: purge
 purge:
