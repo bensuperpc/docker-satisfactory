@@ -45,14 +45,15 @@ services:
       - GID=${PGID:-1000}
     profiles:
       - satisfactory_backup
-    depends_on:
-      - satisfactory_server
+#    depends_on:
+#      - satisfactory_server
     restart: on-failure:5
     env_file:
       - ./satisfactory/env/satisfactory_backup.env
     volumes:
       - satisfactory_backup:/mnt/restic
       - satisfactory_data:/data:ro
+      - satisfactory_backup_cache:/.cache
     networks:
       - satisfactory_network
     security_opt:
@@ -61,5 +62,7 @@ services:
 volumes:
   satisfactory_backup:
     name: satisfactory_backup
+  satisfactory_backup_cache:
+    name: satisfactory_backup_cache
   satisfactory_data:
     name: satisfactory_data

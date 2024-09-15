@@ -16,6 +16,7 @@ services:
     volumes:
       - satisfactory_openssh_config:/config
       - satisfactory_backup:/satisfactory_backup
+      - satisfactory_backup_cache:/satisfactory_backup_cache
       - satisfactory_data:/satisfactory_data
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
     networks:
@@ -30,5 +31,7 @@ volumes:
     name: satisfactory_openssh_config
   satisfactory_backup:
     name: satisfactory_backup
+  satisfactory_backup_cache:
+    name: satisfactory_backup_cache
   satisfactory_data:
     name: satisfactory_data

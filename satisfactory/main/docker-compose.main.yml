@@ -5,9 +5,10 @@ services:
     profiles:
       - main_satisfactory
     volumes:
-      - satisfactory_openssh_config:/satisfactory_openssh_config
-      - satisfactory_backup:/satisfactory_backup
-      - satisfactory_data:/satisfactory_data
+      - satisfactory_openssh_config:/satisfactory_openssh_config:rw
+      - satisfactory_backup:/satisfactory_backup:rw
+      - satisfactory_backup_cache:/satisfactory_backup_cache:rw
+      - satisfactory_data:/satisfactory_data:rw
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -15,14 +16,17 @@ services:
       - ALL
     cap_add:
       - CHOWN
+      - DAC_OVERRIDE
     # Fix root permissions on mounted volumes
-    command: chown -R ${PUID:-1000}:${PGID:-1000} /satisfactory_openssh_config /satisfactory_backup /satisfactory_data
+    command: chown -R ${PUID:-1000}:${PGID:-1000} /satisfactory_openssh_config /satisfactory_backup /satisfactory_data /satisfactory_backup_cache
 
 volumes:
   satisfactory_openssh_config:
     name: satisfactory_openssh_config
   satisfactory_backup:
     name: satisfactory_backup
+  satisfactory_backup_cache:
+    name: satisfactory_backup_cache
   satisfactory_data:
     name: satisfactory_data
 
