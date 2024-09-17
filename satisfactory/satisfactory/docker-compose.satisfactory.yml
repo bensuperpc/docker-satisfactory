@@ -44,13 +44,10 @@ services:
     image: mazzolino/restic:latest
     container_name: satisfactory_backup
     user: "${PUID:-1000}:${PGID:-1000}"
-    environment:
-      - UID=${PUID:-1000}
-      - GID=${PGID:-1000}
     profiles:
       - satisfactory_backup
-#    depends_on:
-#      - satisfactory_server
+    depends_on:
+      - satisfactory_server
     restart: on-failure:5
     env_file:
       - ./satisfactory/env/satisfactory_backup.env

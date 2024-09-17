@@ -26,7 +26,7 @@ services:
     networks:
       - satisfactory_network
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges:false
     ports:
       - 2222:2222
 
