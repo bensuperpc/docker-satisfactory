@@ -17,12 +17,7 @@ services:
       - satisfactory_openssh_config:/config
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
       - satisfactory_backup:/satisfactory_backup
-      - satisfactory_backup_cache:/satisfactory_backup_cache
       - satisfactory_server_config:/satisfactory_server_config
-      - satisfactory_server_backups:/satisfactory_server_backups
-      - satisfactory_server_gamefiles:/satisfactory_server_gamefiles
-      - satisfactory_server_logs:/satisfactory_server_logs
-      - satisfactory_server_saved:/satisfactory_server_saved
     networks:
       - satisfactory_network
     security_opt:
@@ -31,21 +26,9 @@ services:
       - 2222:2222
 
 volumes:
-  satisfactory_server_chown:
-    name: satisfactory_server_chown
   satisfactory_openssh_config:
     name: satisfactory_openssh_config
   satisfactory_backup:
     name: satisfactory_backup
-  satisfactory_backup_cache:
-    name: satisfactory_backup_cache
   satisfactory_server_config:
     name: satisfactory_server_config
-  satisfactory_server_backups:
-    name: satisfactory_server_backups
-  satisfactory_server_gamefiles:
-    name: satisfactory_server_gamefiles
-  satisfactory_server_logs:
-    name: satisfactory_server_logs
-  satisfactory_server_saved:
-    name: satisfactory_server_saved

@@ -15,7 +15,7 @@ SERVER_DIRECTORY := satisfactory
 
 DOCKER := docker
 
-PROFILES := main_satisfactory satisfactory_server satisfactory_backup openssh
+PROFILES := satisfactory_server satisfactory_backup openssh
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
