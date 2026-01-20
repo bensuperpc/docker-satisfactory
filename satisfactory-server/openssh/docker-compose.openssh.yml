@@ -17,7 +17,9 @@ services:
       - satisfactory_openssh_config:/config
       - ./config/authorized_keys:/authorized_ssh_keys:ro
       - satisfactory_backup:/satisfactory_backup
-      - satisfactory_server_config:/satisfactory_server_config
+      - satisfactory_server_config_lgsm:/satisfactory_server_config_lgsm
+      - satisfactory_server_file:/satisfactory_server_file
+      - satisfactory_server_log:/satisfactory_server_log
     networks:
       - infra-network
     security_opt:
@@ -32,5 +34,9 @@ volumes:
     name: satisfactory_openssh_config
   satisfactory_backup:
     name: satisfactory_backup
-  satisfactory_server_config:
-    name: satisfactory_server_config
+  satisfactory_server_config_lgsm:
+    name: satisfactory_server_config_lgsm
+  satisfactory_server_file:
+    name: satisfactory_server_file
+  satisfactory_server_log:
+    name: satisfactory_server_log
